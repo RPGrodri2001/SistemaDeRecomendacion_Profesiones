@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>CareerMatch - Sistema de Recomendación de Carreras</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="main-container col-lg-10 col-xl-8">
+            <div class="header">
+                <h1><i class="fas fa-graduation-cap me-3"></i>CareerMatch - </h1>
+                <p>Descubre tu carrera universitaria ideal con este Sistema de recomendación</p>
+            </div>
+
+            <!-- Indicador de pasos -->
+            <div class="step-indicator">
+                <div class="step active" id="step1">
+                    <div class="step-circle">1</div>
+                    <span>Información Personal</span>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-circle">2</div>
+                    <span>Intereses</span>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-circle">3</div>
+                    <span>Habilidades</span>
+                </div>
+                <div class="step" id="step4">
+                    <div class="step-circle">4</div>
+                    <span>Recomendaciones</span>
+                </div>
+            </div>
+
+            <!-- Sección 1: Información Personal -->
+            <div class="form-section active" id="section1">
+                <div class="custom-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-user me-2"></i>Información Personal</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nombre completo</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Tu nombre completo">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Edad</label>
+                                <input type="number" class="form-control" id="edad" min="15" max="25" placeholder="17">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Promedio académico</label>
+                                <select class="form-control" id="promedio">
+                                    <option value="">Selecciona tu promedio</option>
+                                    <option value="excelente">Excelente (9.0-10.0)</option>
+                                    <option value="muy_bueno">Muy Bueno (8.0-8.9)</option>
+                                    <option value="bueno">Bueno (7.0-7.9)</option>
+                                    <option value="regular">Regular (6.0-6.9)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Área de especialización actual</label>
+                                <select class="form-control" id="especializacion">
+                                    <option value="">Selecciona tu área</option>
+                                    <option value="ciencias">Ciencias Naturales</option>
+                                    <option value="humanidades">Humanidades</option>
+                                    <option value="sociales">Ciencias Sociales</option>
+                                    <option value="artes">Artes</option>
+                                    <option value="tecnico">Técnico</option>
+                                    <option value="general">Bachillerato General</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-custom float-end" onclick="nextSection(2)">
+                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Sección 2: Intereses -->
+            <div class="form-section" id="section2">
+                <div class="custom-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-heart me-2"></i>¿Qué te apasiona?</h3>
+                        <p class="mb-0">Selecciona las áreas que más te interesan (máximo 5)</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="interestGrid">
+                            <!-- Los intereses se generarán dinámicamente -->
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <button class="btn btn-outline-secondary" onclick="prevSection(1)">
+                                <i class="fas fa-arrow-left me-2"></i>Anterior
+                            </button>
+                            <button class="btn btn-custom" onclick="nextSection(3)">
+                                Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 3: Habilidades -->
+            <div class="form-section" id="section3">
+                <div class="custom-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cogs me-2"></i>Evalúa tus habilidades</h3>
+                        <p class="mb-0">Califica del 1 al 5 tu nivel en cada área</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="skillsGrid">
+                            <!-- Las habilidades se generarán dinámicamente -->
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <button class="btn btn-outline-secondary" onclick="prevSection(2)">
+                                <i class="fas fa-arrow-left me-2"></i>Anterior
+                            </button>
+                            <button class="btn btn-custom" onclick="generateRecommendations()">
+                                Generar Recomendaciones <i class="fas fa-magic ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 4: Recomendaciones -->
+            <div class="form-section" id="section4">
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner"></div>
+                    <h4>Analizando tu perfil...</h4>
+                    <p>Estamos procesando tus datos para encontrar las mejores recomendaciones</p>
+                </div>
+
+                <div id="recommendationsContainer" style="display: none;">
+                    <div class="custom-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-star me-2"></i>Tus Recomendaciones Personalizadas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="recommendationsList">
+                                <!-- Las recomendaciones se generarán aquí -->
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-outline-primary me-3" onclick="resetForm()">
+                                    <i class="fas fa-redo me-2"></i>Empezar de Nuevo
+                                </button>
+                                <button class="btn btn-custom" onclick="exportResults()">
+                                    <i class="fas fa-download me-2"></i>Descargar Resultados
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- AQui -->
+            <footer class="footer text-center">
+                <p>© 2025 Creado por <strong>Gino Rodriguez</strong>. Todos los derechos reservados.</p>
+            </footer>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Agrega este bloque justo antes de cerrar el body -->
+</body>
+<script src="./js/main.js"></script>
+
+</html>
