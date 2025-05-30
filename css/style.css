@@ -10,7 +10,7 @@
 
         body {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            background-image: url('/Imagenes/imagen7.png'); /* Ajusta la ruta si es necesario */
+            background-image: url('../Imagenes/imagen7.png'); /* Ajusta la ruta si es necesario */
             background-size: cover;                          /* Para que cubra toda la pantalla */
             background-repeat: no-repeat;                   /* Evita que se repita */
             background-position: center;                    /* Centra la imagen */
